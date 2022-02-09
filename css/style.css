@@ -1,0 +1,215 @@
+@charset "UTF-8";
+/* 스킵 */
+#skip {position: fixed;top: 0;left: 0;z-index:2; width:100%;}
+#skip li {width: 100%;}
+#skip li a {display: block;width: 100%;text-align: center;background:#000;color: #fff;font-size: 0;line-height: 0;}
+#skip li a:focus {font-size: 20px;line-height: 50px;}
+
+
+#wrap {position: relative; z-index:1}
+/* 헤더 */
+
+/* 기본 */
+#wrap #header {z-index: 3;position: fixed;top: 0;left: 0;width: 100%;height: 72px;background: rgba(255,255,255,.9);transition: all .3s;}
+
+/* ▽ 스크롤 탑 값이 0보다 큰 경우에만(최소한 1 이상) */
+/* 높이값은 같으니까 따로 높이만 해당하는 addClass를 지정해주면 하위 서브메뉴들에 변경값을 지정해주기 좋다. */
+#wrap #header.addH60 {height: 60px;}
+/* 스크롤 탑 값이 0보다 큰 경우.addH60 - 스크롤이 아래로 가면 - 헤더가 숨는다.addHide */
+#wrap #header.addH60.addHide {top: -60px;} /* -60은 height가 60px니까. */
+/* 스크롤 탑 값이 0보다 큰 경우 - 스크롤이 위로 가면 - 헤더가 나타난다.addShow */
+#wrap #header.addH60.addShow {top: 0;}
+
+
+
+    /*
+    면적 잡는 방법은 두가지. 
+      1. wrap에서 여백 잡아주기
+        #wrap #header .container {width: 100%;max-width: 1170px;margin: 0 auto;height: 100%;background-color: rgba(200,0,0,0.5);}
+        #wrap #header .container .wrap {margin: 0 15px;} 
+    */
+    /* 2. container에서 padding미리 잡고 wrap은 100%로 잡아주기 */
+#wrap #header .container {position: relative;width: 100%;max-width: 1170px;margin: 0 auto;height: 100%;padding: 0 15px;} /* 큰 서브 메뉴는 여기에 전체 면적의 패딩이 잡혀있기 때문에 여기를 풀어주거나 .sub에 1170px를 주고 가운데 정렬 하거나 */
+#wrap #header .container .wrap {width:100%;height: 100%;display: flex;}
+
+#wrap #header .container .wrap .logo {width:105px;height: 100%;margin: 0 auto 0 0;display: flex;}/* 로고 가운데 정렬하려고 a에서 margin: auto; a가 인라인으로 이미지 감싸고 있으니까 a로 정렬*/
+#wrap #header .container .wrap .logo a {width: 100%;margin: auto;}
+#wrap #header .container .wrap .logo a img {width: 100%;}
+
+#wrap #header .container .wrap .nav {width:auto;margin: 0 0 0 auto;display: flex;} /* nav 랑 aside 두개를 배치해야 하니까 여기가 flex box가 된다. */
+#wrap #header .container .wrap .nav #nav {width: 100%;} /* e. 이곳에 마우스가 닿으면 메뉴가 펼쳐지고 이 영역을 벗어나면 메뉴가 접힌다. 💛 display:none or block은 opacity가 먹지 않으니까 fade-in-out을 사용해야 한다*/
+#wrap #header .container .wrap .nav #nav > ul {display: flex;}/* li 6개를 나란히 배치해야 하니까 */
+#wrap #header .container .wrap .nav #nav > ul > li {padding: 0 20px;}/* margin에서 padding으로 바꿈. sub2를 왼쪽으로 조금 빼줘야 해서 */
+#wrap #header .container .wrap .nav #nav > ul > li:nth-child(2),/*  sub2 */
+#wrap #header .container .wrap .nav #nav > ul > li:nth-child(4) {position: relative;}/*  sub4 */
+#wrap #header .container .wrap .nav #nav > ul > li > a {display: block;height: 72px;line-height: 72px;font-size: 12px;font-weight: 600;color: #232323;transition: all .3s;}
+#wrap #header.addH60 .container .wrap .nav #nav > ul > li > a {height: 60px;line-height: 60px;}
+#wrap #header .container .wrap .nav #nav > ul > li > a:hover {color: rgba(35, 35, 35,.6);}
+/* 서브메뉴 */
+#wrap #header .container .wrap .nav #nav > ul > li > .sub {position: absolute;top:72px;left: 0;width: 100%;/* container에 position:relative안 잡아 줬을 때 header의 position:fixed를 활용하여 적용하는 값. left: 50%;margin: 0 0 0 -585px ; ← 넓이/2 width: 1170px;*/background: #1c1c1c;} 
+#wrap #header.addH60 .container .wrap .nav #nav > ul > li > .sub {top:60px;} 
+/* position: absolute; 안하면 nav메뉴이름 사이가 엄청 벌어진다. 이 포지션은 부모요소중 position:relative;를 찾아간다. #header에 있는 position이 이 absolute의 부모*/
+#wrap #header .container .wrap .nav #nav > ul > li > .sub1 {display: none;} 
+#wrap #header .container .wrap .nav #nav > ul > li > .sub24 {/* left: 0;margin: 0; ← contianer에 position값 적용해서 공통요소로 잡아줬으니 필요 없어짐*/width: 225px;background: #1c1c1c;} /* li에 nth-child로 범위를 잡아주니까 그 밖으로 못 나감 */
+
+/* 공통요소 */
+#wrap #header .container .wrap .nav #nav > ul > li > .sub .sub-wrap {padding: 40px 50px;}/* 여백은 반드시 wrap이나 ul에서 */
+#wrap #header .container .wrap .nav #nav > ul > li > .sub .sub-wrap ul {display: flex;}
+#wrap #header .container .wrap .nav #nav > ul > li > .sub .sub-wrap ul li {width: 25%;}
+#wrap #header .container .wrap .nav #nav > ul > li > .sub .sub-wrap ul li dl {width: 100%;}/* 딱히 써줄 거 없으니 지워도 그만 */
+#wrap #header .container .wrap .nav #nav > ul > li > .sub .sub-wrap ul li dl dt {width: 100%;padding: 10px 0 0 0;}/* 딱히 써줄 거 없으니 지워도 그만 */
+#wrap #header .container .wrap .nav #nav > ul > li > .sub .sub-wrap ul li dl dt a {color: #fff;display: block;line-height:280%;font-size: 12px;font-weight: 600;}
+#wrap #header .container .wrap .nav #nav > ul > li > .sub .sub-wrap ul li dl dd {width: 100%;}/* 딱히 써줄 거 없으니 지워도 그만 */
+#wrap #header .container .wrap .nav #nav > ul > li > .sub .sub-wrap ul li dl dd a {color: #9d9d9d;display: block;line-height:220%;font-size: 12px;transition: all .3s;}
+#wrap #header .container .wrap .nav #nav > ul > li > .sub .sub-wrap ul li dl dd > a:hover {padding-left:5px;/* margin-left:5px;혹은 text-indent: 5px; 단 margin으로 하면 a링크 히트영역이 딱 텍스트 영역만큼만으로 줄어든다. 그게 싫으면 padding으로 고쳐주면 된다.*/color: #fff;}/* 제목은 가만히 있고 메뉴만 움직이니까 여기에 hover값 적용. padding으로 변화 주는 것 보다 자연스럽다 */
+#wrap #header .container .wrap .nav #nav > ul > li > .sub .sub-wrap ul li dl dd > a > i.new-icon {
+                                                          display: inline-block;/* i태그도 영역이 잡혀야 하니까 인라인 블록처리 */
+                                                          background: #ff214f;
+                                                          line-height: 150%;/* a가 130%잡혀있으니까 따로 잡아주자 */
+                                                          color: #fff;
+                                                          font-size: 10px;
+                                                          font-weight: 600;
+                                                          margin: 0 0 0 7px;
+                                                          padding: 0 5px;
+                                                          /*text-indent: 0; 부모요소로부터 내려받은 값을 없애야 한다. 위에서 margin-left:5px로 넣었으면 안 써도 된다*/ 
+                                                        } /* NEW가 붙는 메뉴마다 i.new-icon class를 달아주면 적용할 수 있다.  i태그를 사용하지 않고 new마크를 다는 다른 방법은 after(or befor)를 사용하는 것. a태그에 class를 부여하고 new마크가 필요한 곳 마다 적용하면 된다.  */
+                                                        
+
+/* sub2, sub4 - 영역별로 공통요소와 다른 것만 빼서 변경해주면 된다 sub2와 sub4의 내용이 같으니 이름을sub24로 바꿔주면 둘 다에 공통으로 적용 */
+#wrap #header .container .wrap .nav #nav > ul > li > .sub24 .sub-wrap {padding: 20px 30px;}
+#wrap #header .container .wrap .nav #nav > ul > li > .sub24 .sub-wrap > ul {display: block;}
+#wrap #header .container .wrap .nav #nav > ul > li > .sub24 .sub-wrap > ul > li {width: 100%; position: relative;}
+#wrap #header .container .wrap .nav #nav > ul > li > .sub24 .sub-wrap > ul > li > a {color: #9d9d9d;display: block;line-height:230%;font-size: 12px;transition: all .3s;display: flex;}/* i태그의 부모 영역에서 flex. 그러면 i태그에서margin이 먹힘*/
+#wrap #header .container .wrap .nav #nav > ul > li > .sub24 .sub-wrap > ul > li > a:hover {margin-left:5px;color: #fff;text-indent: 0;}/* 여기는 영역 전체가 움직이기 때문에 i태그까지 움직이도록 text-indent 말고 margin을 써서 들여쓰기 해준다.여기도 padding으로 바꾸면 정렬이 안된다. */
+#wrap #header .container .wrap .nav #nav > ul > li > .sub24 .sub-wrap > ul > li > a i.icon-arrow {color: #9d9d9d;margin: 0 5px 0 auto;/* 위치 잡아주기 위해서 */;transition: all .3s;}
+#wrap #header .container .wrap .nav #nav > ul > li > .sub24 .sub-wrap > ul > li > a:hover i.icon-arrow {color: #fff;margin-right:0;}
+
+/* sub24 sub-sub */
+#wrap #header .container .wrap .nav #nav > ul > li > .sub24 .sub-wrap > ul > li {position: relative;}
+#wrap #header .container .wrap .nav #nav > ul > li > .sub24 .sub-wrap > ul > li .sub-sub {position: absolute;top: -20px;left: 196px/* 본인이 갖고 있는 넓이에 110%만큼 바깥으로 나감 → padding 값 생각하고 값 써줘야해서 바꿈 */;width: 225px;background: #1c1c1c;}
+#wrap #header .container .wrap .nav #nav > ul > li > .sub24 .sub-wrap > ul > li .sub-sub .sub-sub-wrap {padding: 10px 30px;}
+#wrap #header .container .wrap .nav #nav > ul > li > .sub24 .sub-wrap > ul > li .sub-sub .sub-sub-wrap > ul {display: block;}
+#wrap #header .container .wrap .nav #nav > ul > li > .sub24 .sub-wrap > ul > li .sub-sub .sub-sub-wrap > ul > li {width: 100%;}
+#wrap #header .container .wrap .nav #nav > ul > li > .sub24 .sub-wrap > ul > li .sub-sub .sub-sub-wrap > ul > li > a {color: #9d9d9d;display: block;line-height:230%;font-size: 12px;transition: all .3s;}
+#wrap #header .container .wrap .nav #nav > ul > li > .sub24 .sub-wrap > ul > li .sub-sub .sub-sub-wrap > ul > li > a:hover {color: #fff;text-indent: 5px;}
+/* 3dex 메뉴 작업하면서 이렇게 접어주면 된다. */
+#wrap #header .container .wrap .nav #nav > ul > li > .sub2 .sub-wrap ul li .sub-sub.sub2-1 {display: none;}
+#wrap #header .container .wrap .nav #nav > ul > li > .sub2 .sub-wrap ul li .sub-sub.sub2-2 {display: none;}
+#wrap #header .container .wrap .nav #nav > ul > li > .sub2 .sub-wrap ul li .sub-sub.sub2-3 {display: none;}
+#wrap #header .container .wrap .nav #nav > ul > li > .sub2 .sub-wrap ul li .sub-sub.sub2-4 {display: none;}
+#wrap #header .container .wrap .nav #nav > ul > li > .sub2 .sub-wrap ul li .sub-sub.sub2-5 {display: none;}
+
+
+#wrap #header .container .wrap .nav #nav > ul > li > .sub4 .sub-wrap ul li .sub-sub.sub4-1 {display: none;}
+#wrap #header .container .wrap .nav #nav > ul > li > .sub4 .sub-wrap ul li .sub-sub.sub4-2 {display: none;}
+#wrap #header .container .wrap .nav #nav > ul > li > .sub4 .sub-wrap ul li .sub-sub.sub4-3 {display: none;}
+#wrap #header .container .wrap .nav #nav > ul > li > .sub4 .sub-wrap ul li .sub-sub.sub4-4 {display: none;}
+#wrap #header .container .wrap .nav #nav > ul > li > .sub4 .sub-wrap ul li .sub-sub.sub4-5 {display: none;}
+#wrap #header .container .wrap .nav #nav > ul > li > .sub4 .sub-wrap ul li .sub-sub.sub4-6 {display: none;}
+#wrap #header .container .wrap .nav #nav > ul > li > .sub4 .sub-wrap ul li .sub-sub.sub4-7 {display: none;}
+#wrap #header .container .wrap .nav #nav > ul > li > .sub4 .sub-wrap ul li .sub-sub.sub4-8 {display: none;}
+#wrap #header .container .wrap .nav #nav > ul > li > .sub4 .sub-wrap ul li .sub-sub.sub4-9 {display: none;}
+#wrap #header .container .wrap .nav #nav > ul > li > .sub4 .sub-wrap ul li .sub-sub.sub4-10 {display: none;}
+#wrap #header .container .wrap .nav #nav > ul > li > .sub4 .sub-wrap ul li .sub-sub.sub4-11 {display: none;}
+
+
+/* sub3 */
+#wrap #header .container .wrap .nav #nav > ul > li > .sub3 .sub-wrap ul li:last-child dl dt a, /* dt 태그에서 적용해도 됨 */
+#wrap #header .container .wrap .nav #nav > ul > li > .sub3 .sub-wrap ul li:last-child dl dd {text-align: right;}
+#wrap #header .container .wrap .nav #nav > ul > li > .sub3 .sub-wrap ul li dl dt img,
+#wrap #header .container .wrap .nav #nav > ul > li > .sub3 .sub-wrap ul li dl dd img {width: 85%;}
+
+/* sub4 - sub2와 공통이니까 여기 내용은 필요 없다 */
+/* 
+#wrap #header .container .wrap .nav #nav > ul > li:nth-child(4) {}
+#wrap #header .container .wrap .nav #nav > ul > li:nth-child(4) .sub4 .sub-wrap {}
+#wrap #header .container .wrap .nav #nav > ul > li:nth-child(4) .sub4 .sub-wrap ul {}
+#wrap #header .container .wrap .nav #nav > ul > li:nth-child(4) .sub4 .sub-wrap ul li {}
+#wrap #header .container .wrap .nav #nav > ul > li:nth-child(4) .sub4 .sub-wrap ul li a {} 
+*/
+
+/* 서브메뉴 전체 정리 */
+#wrap #header .container .wrap .nav #nav > ul > li > .sub.sub1 {display: none;} 
+#wrap #header .container .wrap .nav #nav > ul > li > .sub.sub2 {display: none;}
+#wrap #header .container .wrap .nav #nav > ul > li > .sub.sub3 {display: none;}
+#wrap #header .container .wrap .nav #nav > ul > li > .sub.sub4 {display: none;}
+#wrap #header .container .wrap .nav #nav > ul > li > .sub.sub5 {display: none;}
+#wrap #header .container .wrap .nav #nav > ul > li > .sub.sub6 {display: none;}
+
+
+
+
+#wrap #header .container .wrap .nav #aside {display: flex;width: 146px;}/* span두개가 나란히 오도록 */
+#wrap #header .container .wrap .nav #aside span {display: flex;width: 50%;}
+#wrap #header .container .wrap .nav #aside span a {color: #232323;margin: auto;}
+#wrap #header .container .wrap .nav #aside span a i {font-size: 14px;}
+
+
+/* 메인 */
+#wrap #main {position: relative;z-index: 1;}
+#wrap #main #section1 {width: 100%;min-height: 100vh;}/* min-height:최소높이, 반응형 글꼴중에 높이를 지정해주는 단위. 100vh라고 하면 화면에 꽉 채운 높이로. 100vw는 꽉채운 넓이  */
+#wrap #main #section1 .container {width: 100%;}       /* 이미지 크기로 면적 잡혀서 따로 높이 잡을 필요 없다 */
+#wrap #main #section1 .container .wrap {width: 100%;} /* 이미지 크기로 면적 잡혀서 따로 높이 잡을 필요 없다 */
+#wrap #main #section1 .container .wrap .slide-container {width: 100%;} 
+#wrap #main #section1 .container .wrap .slide-container .slide-view {width: 100%;overflow: hidden;cursor: url(../images/icon-move-light.png),e-resize;}/* 전체 슬라이드의 이동영역을 싸고 있는 곳에서 커서 변경 */ 
+#wrap #main #section1 .container .wrap .slide-container .slide-view .slide-wrap {width: 500%;display: flex;margin-left: -100%;position: relative;left: calc(-100%*0);} /* 여기서 이미지 돌려주는 전체 롤을 만들어주니까 500%. 이미지 나열하려면 display:flex. left: calc(-100%*0);여기서 곱하는 값으로 화면 점검 가능 */
+#wrap #main #section1 .container .wrap .slide-container .slide-view .slide-wrap .slide {width: 100%;min-height: 100vh;display: flex;} /* 위에서 flex를 해주기 전에는 500% 넓이를 100%로 받아서 이미지가 5배로 나온다. 만약에 flex가 아니라 float로 이미지를 나열하면 넓이를 100%로 잡으면 안되고 직접 이미지 넓이를 입력해줘야한다. flex해줘야 텍스트가 창 가운데로 오는게 먹힌다 */
+#wrap #main #section1 .container .wrap .slide-container .slide-view .slide-wrap .slide1 {background: url(../images/homepage-5-slider-img-3-1.jpg)no-repeat 50% 50%;background-size: cover;} 
+#wrap #main #section1 .container .wrap .slide-container .slide-view .slide-wrap .slide2 {background: url(../images/homepage-5-slider-img-1-1.jpg)no-repeat 50% 50%;background-size: cover;} 
+#wrap #main #section1 .container .wrap .slide-container .slide-view .slide-wrap .slide3 {background: url(../images/homepage-5-slider-img-2-1.jpg)no-repeat 50% 50%;background-size: cover;} 
+
+#wrap #main #section1 .container .wrap .slide-container .slide-view .slide-wrap .slide .title {color: #fff;text-align: center;margin: auto;width: 100%;user-select:none;}
+/* 
+선택 자체가 안되도록 막으면서 아래 버튼은 활성화되게 할 순 없을까? 있지! 모든 브라우저에서 적용 가능한 user-select:none; 근데 이건 높은 버전이라 옛날엔 안 돌아가는 브라우저가 많았었다. 각 브라우저마다 추가로 프리픽스를 사용하면 자동으로 연결되는 벤더프리픽스가 있다.
+사파리 -webkit-touch-callout: ;
+ms 
+*/
+#wrap #main #section1 .container .wrap .slide-container .slide-view .slide-wrap .slide .title h3 {font-size: 18px;font-weight: 300;position: relative;}
+#wrap #main #section1 .container .wrap .slide-container .slide-view .slide-wrap .slide .title h2 {font-size: 70px;font-weight: 700;padding: 30px 0;position: relative;}/* position:relative해줘야 아래 버튼이 죽지 않고 산다 */
+/* #wrap #main #section1 .container .wrap .slide-container .slide-view .slide-wrap .slide .title h3::after {content:'';display: block;position: absolute;width: 100%;height: 100%;top: 0;left: 0;} */
+/* #wrap #main #section1 .container .wrap .slide-container .slide-view .slide-wrap .slide .title h2::after {content:'';display: block;position: absolute;width: 100%;height: 100%;top: 0;left: 0;} */
+#wrap #main #section1 .container .wrap .slide-container .slide-view .slide-wrap .slide .title p {width: 100%;}/* 여기서 padding값을 주면 위 아래 다 떨어져서 위에다 padding값 줌. 여긴 딱히 할게 없네 */
+#wrap #main #section1 .container .wrap .slide-container .slide-view .slide-wrap .slide .title p a {display: inline-block;width: 180px;height: 40px;border: 2px solid #fff;border-radius: 20px;/* 높이를 반으로 잘라서 원하는 곡률만큼 px로 입력 */background: rgba(255,255,255,1);text-align: center;line-height: 35px;font-size: 12px;font-weight: 600;text-transform: uppercase;transition: all .3s;color: #000;}
+#wrap #main #section1 .container .wrap .slide-container .slide-view .slide-wrap .slide .title p a:hover {background: rgba(255,255,255,0);color: #fff;cursor: pointer;}
+
+
+
+#wrap #main #section2 {width: 100%;padding:130px 0;background: #f7f7f7;}
+#wrap #main #section2 .container {width: 100%;max-width: 1170px;margin: 0 auto;} /* 갤러리가 있을 때는 사진 자체에 여백이 들어가니까 여기서는 여백 잡아주지 않는다. 칸이 나뉘는 섹션들은 요소에서 여백주니까 미리 여백 잡아주지 않는다. */
+#wrap #main #section2 .container .wrap {width: 100%;height: 967px/* 💛 */;background-color: rgba(200,0,0,.1);}
+
+#wrap #main #section3 {width: 100%;padding:130px 0;background: #1c1c1c;}
+#wrap #main #section3 .container {width: 100%;max-width: 1170px;margin: 0 auto;}
+#wrap #main #section3 .container .wrap {width: 100%;height: 500px/* 💛 */;background-color: rgba(200,0,0,.6);}
+
+#wrap #main #section4 {width: 100%;background: #fff;}
+#wrap #main #section4 .container {width: 100%;margin: 0 auto;}/* 갤러리 */
+#wrap #main #section4 .container .wrap {width: 100%;height: 1000px/* 💛 */;background-color: rgba(200,0,0,.1);}
+
+#wrap #main #section5 {width: 100%;padding:130px 0;background: #fff;}
+#wrap #main #section5 .container {width: 100%;max-width: 1170px;margin: 0 auto;} /* 갤러리는 아니지만 요소가 있으니까 여백 안 준다 */
+#wrap #main #section5 .container .wrap {width: 100%;height: 400px;/* 💛 */background-color: rgba(200,0,0,.4);}
+
+#wrap #main #section6 {width: 100%;background: #f7f7f7;}
+#wrap #main #section6 .container {width: 100%;margin: 0 auto;}/* 갤러리 */
+#wrap #main #section6 .container .wrap {width: 100%;height: 500px/* 💛 */;background-color: rgba(200,0,0,.1);}
+
+#wrap #main #section7 {width: 100%;padding:130px 0;background: #fff;}
+#wrap #main #section7 .container {width: 100%;max-width: 1170px;margin: 0 auto;}/* 갤러리 */
+#wrap #main #section7 .container .wrap {width: 100%;height: 700px/* 💛 */;background-color: rgba(200,0,0,.5);}
+
+#wrap #main #section8 {width: 100%;background: #1c1c1c;}
+#wrap #main #section8 .container {width: 100%;max-width: 1170px;padding: 0 15px;margin: 0 auto;}
+#wrap #main #section8 .container .wrap {width: 100%;height:  602.438px;}
+
+#wrap #main #section9 {width: 100%;padding:130px 0;background: #fff;} 
+#wrap #main #section9 .container {width: 100%;max-width: 1170px;margin: 0 auto;}/* 갤러리 */
+#wrap #main #section9 .container .wrap {width: 100%;height: 700px/* 💛 */;background-color: rgba(200,0,0,.2);}
+
+#wrap #main #section10 {width: 100%;padding: 60px 0;background: #ff214f;}
+#wrap #main #section10 .container {width: 100%;max-width: 1170px;padding: 0 15px;margin: 0 auto;}
+#wrap #main #section10 .container .wrap {width: 100%;height: 40px;}
+/* 푸터 */
+#wrap #footer {position: relative; z-index:2;padding: 95px 0 60px 0;background: #1c1c1c;}
+#wrap #footer .container {width: 100%;max-width: 1170px;margin: 0 auto;}
+#wrap #footer .container .wrap {width: 100%;height: 100px/* 💛 */;}
